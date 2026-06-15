@@ -84,7 +84,7 @@ Nearest-neighbor interpolation resizes every map to `56 × 56` without introduci
 
 <p align="center">
   <img
-    src="presentation_outputs\figures\preprocessing\scratch_augmentation_comparison.png"
+    src="presentation_outputs/figures/preprocessing/scratch_preprocessing_comparison.png"
     alt="Wafer map preprocessing pipeline"
     width="100%"
   >
@@ -115,7 +115,7 @@ The intermediate model reduces the convolutional widths to `24 → 48 → 96` an
 
 <p align="center">
   <img
-    src="presentation_outputs\figures\intermediate_cnn_architecture_shapes_presentation.png"
+    src="presentation_outputs/figures/intermediate_cnn_architecture_shapes_presentation.png"
     alt="Intermediate CNN architecture"
     width="100%"
   >
@@ -127,7 +127,7 @@ The full model uses convolutional widths of `32 → 64 → 128`, followed by a 1
 
 <p align="center">
   <img
-    src="presentation_outputs\figures\cnn_architecture_shapes_presentation.png"
+    src="presentation_outputs/figures/cnn_architecture_shapes_presentation.png"
     alt="Full CNN architecture"
     width="100%"
   >
@@ -160,9 +160,19 @@ Wafer maps contain discrete values:
 2 = defective die
 ```
 
-Arbitrary-angle rotations require interpolation and create artificial intermediate pixel values. They can also blur narrow structures such as scratches.
+Generic image augmentation is not automatically valid for this representation. Arbitrary-angle rotations require interpolation, which blends neighboring states and creates values that do not exist in the original wafer map. This can also blur narrow structures such as scratches and alter the geometry used to distinguish localized defect classes.
 
-The project deliberately retains this transformation as a negative experiment and compares it with horizontal and vertical flips, which preserve the discrete values. The results show that augmentation should be selected according to the physical meaning of the data rather than copied from natural-image pipelines.
+The comparison below illustrates the issue. In this example, a 45-degree rotation transforms a three-value discrete map into an image containing 496 unique values. A horizontal flip changes the orientation of the scratch while preserving the original value set exactly.
+
+<p align="center">
+  <img
+    src="presentation_outputs/figures/preprocessing/scratch_augmentation_comparison.png"
+    alt="Comparison between arbitrary rotation and safe flip augmentation"
+    width="100%"
+  >
+</p>
+
+Horizontal and vertical flips were therefore treated as label-preserving augmentations because the failure categories are assumed to be invariant to absolute wafer orientation. Arbitrary rotations were retained as a didactic negative experiment, showing that augmentation should follow the physical and numerical meaning of the data rather than be copied directly from natural-image pipelines.
 
 ## Transfer learning findings
 
@@ -203,15 +213,12 @@ project/cnn_outputs_mobilenetv2/audit/
 
 ```text
 deep-learning-wafer-defects/
-├── assets/
-│   └── images/
-│       ├── architecture_full.png
-│       ├── architecture_intermediate.png
-│       └── preprocessing_pipeline.png
 ├── datasets/
 │   ├── LSWMD.pkl
 │   └── Dataset.pkl
-├── project/
+├── presentation_outputs/
+│   └── figures/
+│       
 │   ├── CNNs_full.ipynb
 │   ├── CNNs_intermediate.ipynb
 │   ├── utils.py
@@ -223,6 +230,7 @@ deep-learning-wafer-defects/
 │   ├── Presentation_graphs.ipynb
 │   └── Wafer_preprocessing_and_augmentation_images.ipynb
 ├── .gitignore
+├── LICENSE
 └── README.md
 ```
 
