@@ -84,7 +84,7 @@ Nearest-neighbor interpolation resizes every map to `56 × 56` without introduci
 
 <p align="center">
   <img
-    src="presentation_outputs\figures\intermediate_cnn_architecture_shapes_presentation.png"
+    src="presentation_outputs\figures\preprocessing\scratch_augmentation_comparison.png"
     alt="Wafer map preprocessing pipeline"
     width="100%"
   >
@@ -115,7 +115,7 @@ The intermediate model reduces the convolutional widths to `24 → 48 → 96` an
 
 <p align="center">
   <img
-    src="presentation_outputs\figures\cnn_architecture_shapes_presentation.png"
+    src="presentation_outputs\figures\intermediate_cnn_architecture_shapes_presentation.png"
     alt="Intermediate CNN architecture"
     width="100%"
   >
@@ -127,7 +127,7 @@ The full model uses convolutional widths of `32 → 64 → 128`, followed by a 1
 
 <p align="center">
   <img
-    src="assets/images/architecture_full.png"
+    src="presentation_outputs\figures\cnn_architecture_shapes_presentation.png"
     alt="Full CNN architecture"
     width="100%"
   >
