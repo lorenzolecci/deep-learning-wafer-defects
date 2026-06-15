@@ -1,0 +1,55 @@
+{
+  "model_family": "MOBILENETV2",
+  "dataset": {
+    "path": "datasets/Dataset.pkl",
+    "exists": true,
+    "sha256": "b031f2acf035e29639f3eb1b8af4fe962d2ebcb200bc75603a204d57de846ff2",
+    "number_of_rows": 172950
+  },
+  "splits": {
+    "train": {
+      "size": 15923,
+      "sha256": "f3849232642875f4584e95f9224e5b2082ab9aad35e38fc277bb2cb127be4aab"
+    },
+    "validation": {
+      "size": 25943,
+      "sha256": "eeb98ae6212bdf27355b372001b69d80c0327d012ad130e5588b8e1911f217aa"
+    },
+    "test": {
+      "size": 34590,
+      "sha256": "82e1c4f7671f7166ae8bac6a7e8f882fc80f9bdc884036c6d5885b98abbbbafb"
+    }
+  },
+  "selected_model": {
+    "name": "MobileNetV2 \u2014 fine-tuned",
+    "checkpoint": "project/cnn_outputs_mobilenetv2/checkpoints/mobilenetv2_fine_tuned.weights.h5",
+    "total_parameters": 2269513,
+    "fine_tuned_backbone_layers": 30,
+    "validation_metrics": {
+      "Accuracy": 0.8152488147091701,
+      "Balanced Accuracy": 0.6798768281077198,
+      "Macro Precision": 0.5781817925804307,
+      "Macro Recall": 0.6798768281077198,
+      "Macro F1": 0.605309716210093
+    },
+    "test_metrics": {
+      "Accuracy": 0.8103498120844175,
+      "Balanced Accuracy": 0.6713567411888548,
+      "Macro Precision": 0.5679852172112855,
+      "Macro Recall": 0.6713567411888548,
+      "Macro F1": 0.5945848407185452
+    }
+  },
+  "training": {
+    "pretrained_weights": "imagenet",
+    "head_learning_rate": 0.001,
+    "fine_tune_learning_rate": 1e-05,
+    "frozen_epochs": 20,
+    "fine_tune_epochs": 30,
+    "batch_size": 128,
+    "seed": 42,
+    "safe_flips_only": true,
+    "class_weights": false
+  },
+  "checkpoint_paths_are_unique": true
+}

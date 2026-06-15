@@ -1,0 +1,3 @@
+Model,Repository path,Exists,SHA256
+MobileNetV2 — frozen backbone,project/cnn_outputs_mobilenetv2/checkpoints/mobilenetv2_frozen.weights.h5,True,8f62f13195d1d5c5a5d963ebc5deb2c216e0e04827f0f23e9a6c864080364583
+MobileNetV2 — fine-tuned,project/cnn_outputs_mobilenetv2/checkpoints/mobilenetv2_fine_tuned.weights.h5,True,2b3f9641084a4083274f97683c5b795a3895f41fd9dfa3d9f6a2ed494bcf57bb

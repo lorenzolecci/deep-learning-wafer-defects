@@ -1,0 +1,2 @@
+Model,Accuracy,Balanced Accuracy,Macro Precision,Macro Recall,Macro F1
+MobileNetV2 — fine-tuned,0.8103498120844175,0.6713567411888548,0.5679852172112855,0.6713567411888548,0.5945848407185452
