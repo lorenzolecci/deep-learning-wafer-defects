@@ -317,16 +317,11 @@ This project showcases practical experience with:
 
 ## Limitations and future work
 
-The current experiments use a stratified image-level split. A lot-level split would provide a stricter estimate of generalization to unseen production lots.
+The current experiments reduce class imbalance by capping the training partition at 3,000 samples per class. Although this creates a more balanced training set, it also leaves a large portion of the available majority-class data unused.
 
-Promising next steps include:
+A natural extension would be to retain the full stratified training partition and address imbalance through class weights or sample weighting. This would allow the models to learn from all available wafer maps while assigning greater importance to underrepresented defect classes.
 
-- a compact residual CNN with explicit coordinate channels;
-- multi-scale or spatial-attention modules for localized defects;
-- lot-aware validation;
-- probability calibration;
-- inference benchmarking and lightweight deployment;
-- evaluation on additional wafer-map datasets.
+Future work will also explore alternative architectures designed to preserve spatial information more effectively, including residual CNNs, multi-scale models, and attention-based networks.
 
 ## Authors
 
