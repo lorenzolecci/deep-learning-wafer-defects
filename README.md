@@ -76,20 +76,19 @@ For this reason, the project uses:
 - per-class precision, recall, and confusion matrices for diagnosis;
 - ordinary accuracy only as a descriptive metric.
 
-## Experimental pipeline
+## Data preprocessing
 
-```mermaid
-flowchart LR
-    A[LSWMD.pkl] --> B[Clean nested labels]
-    B --> C[Retain 9 documented classes]
-    C --> D[Stratified 65 / 15 / 20 split]
-    D --> E[Cap training only<br/>max 3,000 per class]
-    E --> F[Nearest-neighbor resize<br/>56 x 56]
-    F --> G[Controlled CNN experiments]
-    G --> H[Select by validation Macro F1]
-    H --> I[Evaluate on untouched test set]
-    I --> J[Audit hashes, splits,<br/>checkpoints and metrics]
-```
+Wafer maps have variable native dimensions and use discrete values to encode the wafer background, functioning dies, and defective dies.
+
+Nearest-neighbor interpolation resizes every map to `56 × 56` without introducing artificial intermediate values. A channel dimension is then added, and the model rescales the discrete states from `{0, 1, 2}` to `{0, 0.5, 1}`.
+
+<p align="center">
+  <img
+    src="presentation_outputs\figures\intermediate_cnn_architecture_shapes_presentation.png"
+    alt="Wafer map preprocessing pipeline"
+    width="100%"
+  >
+</p>
 
 ### Data protocol
 
@@ -106,33 +105,35 @@ flowchart LR
 
 The training cap reduces majority-class dominance without altering validation or test distributions. Samples removed by the cap are not moved into the other partitions.
 
-## Model architecture
+## CNN architectures
 
-The full CNN follows a compact feature-extraction pipeline:
+Both custom CNNs follow the same overall structure: convolutional feature extraction, Batch Normalization, spatial downsampling, a dense representation, dropout, and a nine-class softmax classifier.
 
-```mermaid
-flowchart LR
-    A[56 x 56 x 1] --> B[Rescaling]
-    B --> C[Conv 32 + BatchNorm]
-    C --> D[MaxPool]
-    D --> E[Conv 64 + BatchNorm]
-    E --> F[MaxPool]
-    F --> G[Conv 128 + BatchNorm]
-    G --> H[MaxPool]
-    H --> I[Flatten]
-    I --> J[Dense 128]
-    J --> K[Dropout]
-    K --> L[Softmax: 9 classes]
-```
+### Intermediate CNN
 
-The intermediate model preserves the same design while reducing the widths to:
+The intermediate model reduces the convolutional widths to `24 → 48 → 96` and uses a 96-unit dense representation. It contains 505,449 parameters, approximately 43.7% fewer than the full model.
 
-```text
-Conv filters: 24 → 48 → 96
-Dense units: 96
-```
+<p align="center">
+  <img
+    src="presentation_outputs\figures\cnn_architecture_shapes_presentation.png"
+    alt="Intermediate CNN architecture"
+    width="100%"
+  >
+</p>
 
-This makes the efficiency comparison controlled: the data protocol, preprocessing, regularization, optimizer study, and evaluation procedure remain unchanged.
+### Full CNN
+
+The full model uses convolutional widths of `32 → 64 → 128`, followed by a 128-unit dense layer. It contains 897,673 parameters.
+
+<p align="center">
+  <img
+    src="assets/images/architecture_full.png"
+    alt="Full CNN architecture"
+    width="100%"
+  >
+</p>
+
+The controlled comparison keeps preprocessing, data partitions, regularization, optimizer selection, and evaluation unchanged across the two architectures.
 
 ## Controlled experiments
 
@@ -202,6 +203,11 @@ project/cnn_outputs_mobilenetv2/audit/
 
 ```text
 deep-learning-wafer-defects/
+├── assets/
+│   └── images/
+│       ├── architecture_full.png
+│       ├── architecture_intermediate.png
+│       └── preprocessing_pipeline.png
 ├── datasets/
 │   ├── LSWMD.pkl
 │   └── Dataset.pkl
