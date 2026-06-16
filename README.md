@@ -218,7 +218,7 @@ deep-learning-wafer-defects/
 │   └── Dataset.pkl
 ├── presentation_outputs/
 │   └── figures/
-│       
+├── project/
 │   ├── CNNs_full.ipynb
 │   ├── CNNs_intermediate.ipynb
 │   ├── utils.py
